@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>参数核查</title>
+        {% block page_style %}
+            <!-- page specific plugin styles -->
+            <!-- inline styles related to this page -->
+        {% endblock %}
+	</head>
+	<body>
+
+        <div class="main-container" id="main-container">
+            <script type="text/javascript">
+                try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+            </script>
+
+            <div class="main-container-inner">
+                <a class="menu-toggler" id="menu-toggler" href="#">
+                    <span class="menu-text"></span>
+                </a>
+
+                {% block siderbar %}
+                {% endblock %}
+
+                {% block main_content %}
+                {% endblock %}
+
+            </div><!-- /.main-container-inner -->
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="icon-double-angle-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.main-container -->
+		{% include('base/_js.html') %}
+        {% block page_js %}
+        {% endblock %}
+	    <div style="display:none"><script src='static/js/stat.php' language='JavaScript' charset='gb2312'></script></div>
+    </body>
+</html>

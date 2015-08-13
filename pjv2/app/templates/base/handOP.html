@@ -1,0 +1,537 @@
+<!-- form-wizard.html -->
+{% extends 'base/base.html' %}
+
+{% block page_style %}
+    <!-- basic styles -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="static/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="static/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="static/css/font.css" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="static/css/ace.min.css" />
+    <link rel="stylesheet" href="static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="static/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="static/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+
+    <script src="static/js/ace-extra.min.js"></script>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.js"></script>
+    <script src="static/js/respond.min.js"></script>
+    <![endif]-->
+{% endblock %}
+
+{% block siderbar %}
+    <div class="sidebar" id="sidebar">
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+        </script>
+        <ul class="nav nav-list">
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> L网参数管理 </span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="{{ url_for('mainBlueprint.setlte') }}">
+                            <i class="icon-hand-right"></i>
+                            配置
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('mainBlueprint.ltechk') }}">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="buttons.html">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> C网参数管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li >
+                        <a href="tables.html">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="jqgrid.html">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> 数据管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="{{ url_for('mainBlueprint.upload') }}">
+                            <i class="icon-hand-right"></i>
+                            数据上传
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> 万栋楼宇 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li class="active">
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            掌上优测试统计
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul><!-- /.nav-list -->
+
+        <div class="sidebar-collapse" id="sidebar-collapse">
+            <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+        </div>
+
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+        </script>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+<div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">Home</a>
+            </li>
+
+            <li>
+                <a href="#">万栋楼宇</a>
+            </li>
+            <li class="active">掌上优测试统计</li>
+        </ul><!-- .breadcrumb -->
+        <div class="nav-search" id="nav-search">
+            <form class="form-search">
+                <span class="input-icon">
+                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                    <i class="icon-search nav-search-icon"></i>
+                </span>
+            </form>
+        </div><!-- #nav-search -->
+    </div>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="widget-box">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <h5>
+                            <i class="icon-signal"></i>
+                            访问来源
+                        </h5>
+
+                        <div class="widget-toolbar no-border">
+                            <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+                                本周
+                                <i class="icon-angle-down icon-on-right bigger-110"></i>
+                            </button>
+
+                            <ul class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+                                <li class="active">
+                                    <a href="#" class="blue">
+                                        <i class="icon-caret-right bigger-110">&nbsp;</i>
+                                        本周
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                                        上周
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                                        本月
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                                        上月
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div id="piechart-placeholder"></div>
+                        </div><!-- /widget-main -->
+                    </div><!-- /widget-body -->
+                </div><!-- /widget-box -->
+            </div><!-- /span -->
+            <div class="col-sm-6">
+                <div id="placeholder" style="width:500px;height:200px;">&nbsp;</div>
+            </div>
+        </div><!-- /.row -->
+        <div class="hr hr-18 dotted hr-double"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="table-responsive">
+                    <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="center">
+                                    <label>
+                                        <input type="checkbox" class="ace" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </th>
+                                <th>Domain</th>
+                                <th>Price</th>
+                                <th class="hidden-480">Clicks</th>
+
+                                <th>
+                                    <i class="icon-time bigger-110 hidden-480"></i>
+                                    Update
+                                </th>
+                                <th class="hidden-480">Status</th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="center">
+                                    <label>
+                                        <input type="checkbox" class="ace" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+
+                                <td>
+                                    <a href="#">app.com</a>
+                                </td>
+                                <td>$45</td>
+                                <td class="hidden-480">3,330</td>
+                                <td>Feb 12</td>
+
+                                <td class="hidden-480">
+                                    <span class="label label-sm label-warning">Expiring</span>
+                                </td>
+
+                                <td>
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                        <a class="blue" href="#">
+                                            <i class="icon-zoom-in bigger-130"></i>
+                                        </a>
+
+                                        <a class="green" href="#">
+                                            <i class="icon-pencil bigger-130"></i>
+                                        </a>
+
+                                        <a class="red" href="#">
+                                            <i class="icon-trash bigger-130"></i>
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="center">
+                                    <label>
+                                        <input type="checkbox" class="ace" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+
+                                <td>
+                                    <a href="#">base.com</a>
+                                </td>
+                                <td>$35</td>
+                                <td class="hidden-480">2,595</td>
+                                <td>Feb 18</td>
+
+                                <td class="hidden-480">
+                                    <span class="label label-sm label-success">Registered</span>
+                                </td>
+
+                                <td>
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                        <a class="blue" href="#">
+                                            <i class="icon-zoom-in bigger-130"></i>
+                                        </a>
+
+                                        <a class="green" href="#">
+                                            <i class="icon-pencil bigger-130"></i>
+                                        </a>
+
+                                        <a class="red" href="#">
+                                            <i class="icon-trash bigger-130"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->
+{% endblock %}
+
+{% block page_js %}
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+var _$ = jQuery.noConflict(true);
+</script>
+<!--[if lte IE 8]>
+		  <script src="static/js/excanvas.min.js"></script>
+		<![endif]-->
+<script src="static/js/jquery-1.7.2.min.js"></script>
+<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="static/js/jquery.ui.touch-punch.min.js"></script>
+<script src="static/js/jquery.slimscroll.min.js"></script>
+<script src="static/js/jquery.easy-pie-chart.min.js"></script>
+<script src="static/js/jquery.sparkline.min.js"></script>
+<script src="static/js/flot/jquery.flot.min.js"></script>
+
+<script src="static/js/flot/jquery.flot.pie.min.js"></script>
+<script src="static/js/flot/jquery.flot.resize.min.js"></script>
+
+<script src="static/js/jquery.dataTables.min.js"></script>
+<script src="static/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- inline scripts related to this page -->
+
+<!-- index.html -->
+<script type="text/javascript">
+
+    jQuery(function($) {
+      var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
+
+        var count = {{ companyCat | safe }};
+        alert(count)
+      var data = [];
+        <!-- var series = Math.floor(Math.random()*10)+1; -->
+       for( var i = 0; i< count.length; i++)
+        {
+            data[i] = { label: count[i][0], data: count[i][1] }
+        }
+      function drawPieChart(placeholder, data, position) {
+          $.plot(placeholder, data, {
+            series: {
+                pie: {
+                    show: true,
+                    tilt:0.5,
+                    radius:1,
+                    label: {
+                        show: true
+                    }
+                }
+            },
+            legend: {
+                show: true,
+                position: position || "ne",
+                labelBoxBorderColor: null,
+                margin:[-30,15]
+            }
+            ,
+            grid: {
+                hoverable: true,
+                clickable: true
+            }
+         })
+     }
+     drawPieChart(placeholder, data);
+
+     /**
+     we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
+     so that's not needed actually.
+     */
+     placeholder.data('chart', data);
+     placeholder.data('draw', drawPieChart);
+
+
+
+      var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+      var previousPoint = null;
+
+      placeholder.on('plothover', function (event, pos, item) {
+        if(item) {
+            if (previousPoint != item.seriesIndex) {
+                previousPoint = item.seriesIndex;
+                var tip = item.series['label'] + " : " + item.series['percent']+'%';
+                $tooltip.show().children(0).text(tip);
+            }
+            $tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
+        } else {
+            $tooltip.hide();
+            previousPoint = null;
+        }
+
+     });
+
+    })
+</script>
+<script src="static/js/flot/jquery.flot.js"></script>
+<script id="source">
+$(function () {
+  var ms_data = [{"label":"FOO","data":[[0,80],[1,70],[2,100],[3,60],[4,102]]},
+                 {"label":"BAR","data":[[0,10],[1,20],[2,30],[3,40],[4,80]]},
+                 {"label":"CAR","data":[[0,5],[1,10],[2,15],[3,20],[4,25]]}]
+  var ms_ticks = [[0,"1/28"],[1,"1/29"],[2,"1/30"],[3,"1/31"],[4,"1/32"]];
+
+    function plotWithOptions() {
+      $.plot($("#placeholder"), ms_data, {
+        bars: { show: true, barWidth: 0.6, series_spread: true, align: "center" },
+        xaxis: { ticks: ms_ticks, autoscaleMargin: .10 },
+        grid: { hoverable: true, clickable: true }
+      });
+    }
+
+    function showTooltip(x, y, contents) {
+        $("<div id='tooltip'>" + contents + '</div>').css( { position: 'absolute', display: 'none', top: y + 5, left: x + 5, border: '1px solid #fdd', padding: '2px', 'background-color': '#fee', opacity: 0.80 }).appendTo("body").show();
+    }
+
+    plotWithOptions();
+
+    $("#placeholder").bind("plothover", function (event, pos, item) {
+      $("#x").text(pos.x.toFixed(2));
+      $("#y").text(pos.y.toFixed(2));
+        if (item) {
+            if (previousPoint != item.datapoint) {
+                previousPoint = item.datapoint;
+
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(2),
+                    y = item.datapoint[1].toFixed(2);
+
+                showTooltip(item.pageX, item.pageY,
+                            item.series.label + " Group id: " + Math.floor(x) + ", y = " + y + ", seriesIndex: " + item.seriesIndex);
+            }
+        }
+        else {
+            $("#tooltip").remove();
+            previousPoint = null;
+        }
+    });
+
+    $("#placeholder").bind("plotclick", function (event, pos, item) {
+        if (item) {
+            $("#clickdata").text("You clicked bar " + item.dataIndex + " in " + item.series.label + ".");
+        }
+    });
+});
+</script>
+
+
+
+<!-- tables -->
+<script type="text/javascript">
+    jQuery(function($) {
+        var oTable1 = $('#sample-table-2').dataTable( {
+        "aoColumns": [
+          { "bSortable": false },
+          null, null,null, null, null,
+          { "bSortable": false }
+        ] } );
+
+
+        $('table th input:checkbox').on('click' , function(){
+            var that = this;
+            $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function(){
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+
+        });
+
+
+        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+        function tooltip_placement(context, source) {
+            var $source = $(source);
+            var $parent = $source.closest('table')
+            var off1 = $parent.offset();
+            var w1 = $parent.width();
+
+            var off2 = $source.offset();
+            var w2 = $source.width();
+
+            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+            return 'left';
+        }
+
+
+    })
+</script>
+
+{% endblock %}

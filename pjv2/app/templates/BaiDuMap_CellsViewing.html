@@ -1,0 +1,385 @@
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=gb2312' />
+<title>cells on baidu by weiyq_chris@126.com</title>
+<style type='text/css'>
+
+body, html{width: 100%;height: 100%;overflow: hidden;margin:0;font-family: Verdana, Geneva, sans-serif;font-size: 8px;color: #666;}
+#allmap {margin-right: 0px;width: 100%;height: 100%;overflow: hidden;}
+
+</style>
+<script type='text/javascript' src='http://api.map.baidu.com/api?v=1.4'></script>
+<script type='text/javascript' src='http://api.map.baidu.com/library/MapWrapper/1.2/src/MapWrapper.js'></script>
+<script type='text/javascript' src='http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js'></script>
+<script type='text/javascript' src='http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js'></script>
+<script type='text/javascript' src='http://api.map.baidu.com/library/MarkerTool/1.2/src/MarkerTool_min.js'></script>
+<script type='text/javascript' src='http://api.map.baidu.com/library/RectangleZoom/1.2/src/RectangleZoom_min.js'></script>
+<script type='text/javascript' src='http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js'></script>
+<link rel='stylesheet' href='http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css' />
+</head>
+<body >
+<div id='allmap' style='overflow:hidden;zoom:1;position:relative;'>
+<div style='height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;' id='container'></div>
+
+<select id='myselect'  class='wyq'  style='font-size:8px'>
+<option value='NAME'> NAME </option>
+<option value='LAC_CI'> LAC_CI </option>
+<option value='BCCH'> BCCH </option>
+<option value='专题字段'> 专题字段 </option>
+</select>
+<input id='show1' type='radio' name='show' value=''  checked='checked'/>
+<label for='show1'>仅结果</label>
+<input id='show2' type='radio' name='show' value='all'/>
+<label for='show2'>全部</label>
+<input type='text' id='keyword' style='width:50px;' value=''/>
+<input type='button' class='wyq'  style='font-size:8px'  onClick="search('type','show','keyword')" value='查找'/> | 文本标注
+<input type='checkbox' id='islabeled' onChange="search('type','show','keyword')" /> |
+<img src='http://pic.yupoo.com/weiyqchris2012/CchQBXeo/medish.jpg' width='25' height='25' align='top'>2、查找行政区
+<input type='text' id='districtName' style='width:50px' value=''/> 
+<input type='button' class='wyq'  style='font-size:8px' onclick='getBoundary()' value='边界' />|<img src='http://pic.yupoo.com/weiyqchris2012/CchQCjPN/thumb.jpg' width='25' height='25' align='top'>3、查找路线：从
+<input type='text' id='StartLonLat' style='width:50px' value=''/> 到<input type='text' id='EndLonLat' style='width:50px' value=''/>  
+<input type='button' class='wyq'  style='font-size:6px' onclick='myRout()' value='路线' />|<img src='http://pic.yupoo.com/weiyqchris2012/CchQC9ZN/thumb.jpg' width='25' height='25' align='top'>4、普通查找
+<input type='text' id='mySearch' style='width:50px' value=''/><input type='button' class='wyq'  style='font-size:6px'  onClick='mysearch()' value='定位'/>
+</div>
+<div id='panelWrap2' style='height:0px;width:0px;position:absolute;top:0px;right:0px;height:100%;overflow:auto;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;' >| 
+<img src='http://pic.yupoo.com/weiyqchris2012/CchQCapF/medish.jpg' width='25' height='25' align='top'>5、插入基站
+<input type='button' class='wyq'  style='font-size:8px' value='开始' onclick='mkrTool.open()' />
+<input type='button' class='wyq'  style='font-size:8px' value='结束' onclick='mkrTool.close()' />|<img src='http://pic.yupoo.com/weiyqchris2012/CzFh3udM/medish.jpg' width='25' height='25' align='top'>6、手绘工具
+<input id='startBtn' type='button' class='wyq'  style='font-size:8px' value='打开' onclick='opentool()' />
+<input type='button' class='wyq'  style='font-size:8px' value='关闭' onclick='closetool()'/>
+|<img src='http://pic.yupoo.com/weiyqchris2012/CchQCBfh/medish.jpg' width='25' height='25' align='top'>7、测量距离：
+<input type='button' class='wyq'  style='font-size:8px' onClick='myDis1.open()' value='测距' />| <img src='http://pic.yupoo.com/weiyqchris2012/CzFh3iWI/medish.jpg' width='25' height='25' align='top'> 8、拉框放大：
+<input type='button' class='wyq'  style='font-size:8px' onClick='myDrag.open()' value='开启' />
+<input type='button' class='wyq'  style='font-size:8px' onClick='myDrag.close()' value='关闭' />|  <img src='http://pic.yupoo.com/weiyqchris2012/CAjVfaB3/medish.jpg' width='25' height='25' align='top'> 9、清除所有!!<input type='button' class='wyq'  style='font-size:8px,backgroundcolor=red' onClick='map.clearOverlays()' value='清除' />| 10、联系邮箱@：
+<span class='STYLE2'><a href='mailto: weiyq_chris@126.com'><img src='http://pic.yupoo.com/weiyqchris2012/Cd0v4TOU/medish.jpg' width='25' height='25' border='0' align='top' longdesc='mailto: weiyq_chris@126.com'></a>
+</a></div>
+<div style='width:1280px;height:4px;background-image: url(http://pic.yupoo.com/weiyqchris2012/C7wwfnii/medish.jpg)'></div>
+</div>
+</div>
+</body>
+</html>
+<script type='text/javascript'>
+function getElementsByClassName(n) {
+var el = [],
+ _el = document.getElementsByTagName('*');
+for (var i=0; i<_el.length; i++ ) {
+if (_el[i].className == n ) {
+el[el.length] = _el[i];
+}
+}
+return el;
+}
+function opentool(){
+getElementsByClassName('BMapLib_Drawing_panel')[0].style.display='';
+}
+function closetool(){
+ getElementsByClassName('BMapLib_Drawing_panel')[0].style.display='none';
+}
+var BASEDATA = [
+{NAME:'M通达大厦D_0',LAC_CI:'8410_15225',Azimuth:360,专题字段:'BSC1',point:'108.906966,34.229358',point1:'108.91816263285,34.233466750723', point2: '108.91781,34.23393', point5: '108.91798,34.23399', point6: '108.91816,34.23401', point7: '108.91834,34.23399', point3: '108.91851,34.23393',point4: '108.91759,34.23426',isOpen:0,BCCH:695},
+{NAME:'M吐哈石油大厦D_0',LAC_CI:'8410_15405',Azimuth:360,专题字段:'BSC1',point:'108.927148,34.22856',point1:'108.93827962345,34.232981153547', point2: '108.93793,34.23345', point5: '108.9381,34.2335', point6: '108.93828,34.23352', point7: '108.93846,34.2335', point3: '108.93863,34.23345',point4: '108.93757,34.23377',isOpen:0,BCCH:693},
+{NAME:'M外贸大厦D_0',LAC_CI:'8410_14075',Azimuth:360,专题字段:'BSC1',point:'108.954189,34.252146',point1:'108.96529208472,34.256915095796', point2: '108.96494,34.25738', point5: '108.96511,34.25744', point6: '108.96529,34.25745', point7: '108.96547,34.25744', point3: '108.96564,34.25738',point4: '108.96472,34.2577',isOpen:0,BCCH:710},
+{NAME:'M万佳商务酒店_0',LAC_CI:'8410_13265',Azimuth:360,专题字段:'BSC1',point:'108.901433,34.232101',point1:'108.91263883738,34.236168203828', point2: '108.9124,34.23686', point5: '108.91252,34.23688', point6: '108.91264,34.23689', point7: '108.91277,34.23688', point3: '108.91288,34.23686',point4: '108.912,34.23714',isOpen:0,BCCH:110},
+{NAME:'M万科新地城D_0',LAC_CI:'8410_15805',Azimuth:360,专题字段:'BSC1',point:'108.932267,34.230267',point1:'108.94338323296,34.234780633115', point2: '108.94303,34.23525', point5: '108.9432,34.2353', point6: '108.94338,34.23532', point7: '108.94357,34.2353', point3: '108.94373,34.23525',point4: '108.94274,34.23557',isOpen:0,BCCH:704},
+{NAME:'M旺座国际D_0',LAC_CI:'8410_15515',Azimuth:360,专题字段:'BSC1',point:'108.88593,34.23791',point1:'108.89712485137,34.242007519699', point2: '108.89677,34.24247', point5: '108.89694,34.24253', point6: '108.89712,34.24255', point7: '108.89731,34.24253', point3: '108.89748,34.24247',point4: '108.89655,34.2428',isOpen:0,BCCH:705},
+{NAME:'M旺座现代城D_0',LAC_CI:'8410_13005',Azimuth:360,专题字段:'BSC1',point:'108.886201,34.21773',point1:'108.89739104014,34.221816435981', point2: '108.89704,34.22228', point5: '108.89721,34.22234', point6: '108.89739,34.22236', point7: '108.89757,34.22234', point3: '108.89774,34.22228',point4: '108.89675,34.22261',isOpen:0,BCCH:690},
+{NAME:'M望庭国际D_0',LAC_CI:'8410_13595',Azimuth:360,专题字段:'BSC1',point:'108.889084,34.21646',point1:'108.90027904599,34.22052495131', point2: '108.89993,34.22099', point5: '108.9001,34.22105', point6: '108.90028,34.22106', point7: '108.90046,34.22105', point3: '108.90063,34.22099',point4: '108.89971,34.22131',isOpen:0,BCCH:704},
+{NAME:'M文昌豪生精品茶城D_0',LAC_CI:'8410_11955',Azimuth:360,专题字段:'BSC1',point:'108.903605,34.226732',point1:'108.91480708051,34.230810421406', point2: '108.91446,34.23128', point5: '108.91463,34.23133', point6: '108.91481,34.23135', point7: '108.91499,34.23133', point3: '108.91516,34.23128',point4: '108.91395,34.2316',isOpen:0,BCCH:695},
+{NAME:'M西安海关D_0',LAC_CI:'8410_15745',Azimuth:360,专题字段:'BSC1',point:'108.88989,34.224689',point1:'108.90109133473,34.228753476397', point2: '108.90074,34.22922', point5: '108.90091,34.22927', point6: '108.90109,34.22929', point7: '108.90127,34.22927', point3: '108.90144,34.22922',point4: '108.90052,34.22954',isOpen:0,BCCH:699},
+{NAME:'M西安软件园汉韵阁D_0',LAC_CI:'8410_16045',Azimuth:360,专题字段:'BSC1',point:'108.87798,34.22488',point1:'108.88914905584,34.229066484328', point2: '108.8888,34.22953', point5: '108.88897,34.22959', point6: '108.88915,34.22961', point7: '108.88933,34.22959', point3: '108.8895,34.22953',point4: '108.88829,34.22986',isOpen:0,BCCH:694},
+{NAME:'M西宝花园D_0',LAC_CI:'8410_15885',Azimuth:360,专题字段:'BSC1',point:'108.939463,34.248636',point1:'108.95055816127,34.253269547497', point2: '108.95021,34.25374', point5: '108.95038,34.25379', point6: '108.95056,34.25381', point7: '108.95074,34.25379', point3: '108.95091,34.25374',point4: '108.94999,34.25406',isOpen:0,BCCH:696},
+var ply = new BMap.Polygon(rs.boundaries[i], {strokeWeight: 2, strokeColor: '#ff0000',fillColor:'#00BFFF',fillOpacity:0.05}); //建立多边形覆盖物
+map.addOverlay(ply); 
+ply.disableMassClear();
+map.setViewport(ply.getPath());
+}});}
+function initMap(){
+var obj=document.getElementById('myselect');
+var index=obj.selectedIndex; //序号
+var val = obj.options[index].value;//搜索关键字
+window.map = new BMap.Map('container');
+map.centerAndZoom(new BMap.Point(108.91816263285,34.233466750723),14);
+myDis1 = new BMapLib.DistanceTool(map);
+myDrag = new BMapLib.RectangleZoom(map, {
+followText: '拖拽鼠标进行放大'
+});
+map.enableScrollWheelZoom();
+map.addControl(new BMap.NavigationControl());
+map.addControl(new BMap.OverviewMapControl());
+map.addControl(new BMap.ScaleControl());
+map.addControl(new BMap.MapTypeControl());
+window.searchClass = new SearchClass();
+searchClass.setData(BASEDATA);
+var dd = searchClass.search({k:val,d:'',t:'more',s:''});//t:{single|more},s{all|!all}
+addMarker(dd);
+getBoundary();
+}
+window.search = function(name_t,name_s,id_d){
+var obj=document.getElementById('myselect');
+var index=obj.selectedIndex; //序号
+var val = obj.options[index].value;//搜索关键字
+var t_o = document.getElementsByName(name_t);
+var s_o = document.getElementsByName(name_s);
+var s_v,t_v,d_v = document.getElementById(id_d).value;
+t_v='more';
+for(var i = 0; i < s_o.length; i++)
+{if(s_o[i].checked){s_v = s_o[i].value;}}
+searchClass.trim(t_v) == '' && (t_v = 'single');
+var dd = searchClass.search({k:val,d:d_v,t:t_v,s:s_v});
+addMarker(dd);
+}
+window.addMarker = function (data){
+map.clearOverlays();
+for(var i=0;i<data.length;i++){
+var json = data[i];
+var p0 = json.point.split(',')[0];
+var p1 = json.point.split(',')[1];
+var point = new BMap.Point(Number(p0),Number(p1));
+var p10 = json.point1.split(',')[0];
+var p11 = json.point1.split(',')[1];
+var point1 = new BMap.Point(Number(p10),Number(p11));
+var p50 = json.point5.split(',')[0];
+var p51 = json.point5.split(',')[1];
+var point5 = new BMap.Point(Number(p50),Number(p51));
+var p60 = json.point6.split(',')[0];
+var p61 = json.point6.split(',')[1];
+var point6 = new BMap.Point(Number(p60),Number(p61));
+var p20 = json.point2.split(',')[0];
+var p21 = json.point2.split(',')[1];
+var point2 = new BMap.Point(Number(p20),Number(p21));
+var p30 = json.point3.split(',')[0];
+var p31 = json.point3.split(',')[1];
+var point3 = new BMap.Point(Number(p30),Number(p31));
+var p70 = json.point7.split(',')[0];
+var p71 = json.point7.split(',')[1];
+var point7 = new BMap.Point(Number(p70),Number(p71));
+var p40 = json.point4.split(',')[0];
+var p41 = json.point4.split(',')[1];
+var point4 = new BMap.Point(Number(p40),Number(p41));
+if(json.BCCH >124) { if(json.Azimuth==360){
+var polygon= new BMap.Circle(point1,20,{strokeColor:'#FF0000', strokeWeight:1, strokeOpacity: 1 , fillColor:'#00FF00', fillOpacity:.87});}
+else {
+var polygon= new BMap.Polygon([point1,point2,point5,point6,point7,point3], {strokeColor:'#FF0000', strokeWeight:1, strokeOpacity: 1 , fillColor:'#00FF00', fillOpacity:.87});}}
+else {if(json.Azimuth==360){
+var polygon= new BMap.Circle(point1,30,{strokeColor:'#0000FF', strokeWeight:1, strokeOpacity: 1, fillColor:'#FFFF00', fillOpacity:.86});}
+else {
+var polygon= new BMap.Polygon([point1,point2,point5,point6,point7,point3], {strokeColor:'#0000FF', strokeWeight:1, strokeOpacity: 1, fillColor:'#FFFF00', fillOpacity:.86});}}
+map.addOverlay(polygon);
+var islabel=document.getElementById('islabeled').checked;
+if (islabel){
+var label = new BMap.Label(json.NAME);
+map.addOverlay(label);
+label.setPosition(point4);
+label.setStyle({
+borderColor:'#808080',
+color:'#333',
+cursor:'pointer'
+})
+}
+};}
+function SearchClass(data){
+this.datas = data;}
+SearchClass.prototype.search = function(rule){
+var obj=document.getElementById('myselect');
+var index=obj.selectedIndex; //序号
+var val = obj.options[index].value;//搜索关键字
+if(this.datas == null){alert('数据不存在!');return false;}
+var reval = [];
+var datas = this.datas;
+var len = datas.length;
+var me = this;
+var ruleReg = new RegExp(this.trim(rule.d));
+var hasOpen = false;
+
+var addData = function(data,isOpen){
+if(isOpen && !hasOpen){
+hasOpen = true;
+data.isOpen = 1;
+}else{
+data.isOpen = 0;
+}
+reval.push(data);
+}
+var getData = function(data,key){
+var ks = me.trim(key).split(/\./);
+var i = null,s = 'data';
+if(ks.length == 0){
+return data;
+}else{
+for(var i = 0; i < ks.length; i++){
+s += '["' + ks[i] + '"]';
+}
+return eval(s);
+}
+}
+for(var cnt = 0; cnt < len; cnt++){
+var data = datas[cnt];
+var d = getData(data,rule.k);
+if(rule.t == 'single' && rule.d == d){
+addData(data,true);
+}else if(rule.t != 'single' && ruleReg.test(d)){
+addData(data,true);
+}else if(rule.s == 'all'){
+addData(data,false);
+}
+}
+return reval;
+}
+SearchClass.prototype.setData = function(data){
+this.datas = data;
+}
+SearchClass.prototype.trim = function(str){
+if(str == null){str = '';}else{ str = str.toString();}
+return str.replace(/(^[\s\t\xa0\u3000]+)|([\u3000\xa0\s\t]+$)/g, '');
+}
+
+initMap();//创建和初始化地图
+var mkrTool = new BMapLib.MarkerTool(map, {autoClose: false, followText: '连续添加基站)'});
+var icon1 = BMapLib.MarkerTool.SYS_ICONS[1]; //设置自定义图标0-23
+mkrTool.setIcon(icon1); 
+map.enableKeyboard(); 
+map.addControl(new BMap.MapTypeControl());
+map.addEventListener('click', function(e){document.getElementById('info').innerHTML = (e.point.lng).toFixed(5) + ', ' + (e.point.lat).toFixed(5);});
+var copyCtrl = new BMap.CopyrightControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
+copyCtrl.addCopyright({id: 1, content: '2012 WeiYanQiang All Rights Reserved..'});
+map.addControl(copyCtrl);
+function myRout(){
+var output = '';
+var searchComplete = function (results){
+if (transit.getStatus() != BMAP_STATUS_SUCCESS){
+return ;}
+var plan = results.getPlan(0);
+output += plan.getDuration(true) + '   ';                //获取时间
+output += '总路程为：' ;
+document.getElementById('info').innerHTML = '总路程为：' + plan.getDistance(true);}
+var transit = new BMap.DrivingRoute(map, {renderOptions: {map: map},
+onSearchComplete: searchComplete,
+onPolylinesSet: function(){ }});
+p11=document.getElementById('StartLonLat').value.split(',')[0];
+p12=document.getElementById('StartLonLat').value.split(',')[1];
+p21=document.getElementById('EndLonLat').value.split(',')[0];
+p22=document.getElementById('EndLonLat').value.split(',')[1];
+var p123 = new BMap.Point(Number(p11),Number(p12));
+var p234 = new BMap.Point(Number(p21),Number(p22));
+transit.search(p123, p234);}
+function mysearch(){
+var local = new BMap.LocalSearch(map, {
+renderOptions:{map: map}});
+local.search(document.getElementById('mySearch').value);}
+function $(id){
+return document.getElementById(id);}
+var isPanelShow = false;
+var isPanelShow1 = false;
+$('showPanel').onclick = function(){
+if (isPanelShow == false) {
+isPanelShow = true;
+$('showPanel').style.top = '30px';
+$('showPanel1').style.top = '30px';
+$('info').style.top = '30px';
+$('panelWrap').style.height = '30px';
+$('panelWrap2').style.height = '0px';
+$('panelWrap').style.width = '1280px';
+$('container').style.marginTop = '30px';
+$('showPanel').innerHTML = '隐藏工具栏A';
+ } else {
+isPanelShow = false;
+$('showPanel').style.top = '0px';
+$('showPanel1').style.top = '0px';
+$('panelWrap').style.height = '0px';
+$('info').style.top = '0px';
+$('container').style.marginTop = '0px';
+$('panelWrap2').style.height = '0px';
+$('showPanel').innerHTML = '显示工具栏A';}}
+$('showPanel1').onclick = function(){
+if (isPanelShow1 == false) {
+isPanelShow1 = true;
+$('showPanel1').style.top = '30px';
+$('showPanel').style.top = '30px';
+$('info').style.top = '30px';
+$('panelWrap').style.height = '0px';
+$('panelWrap2').style.height = '30px';
+$('panelWrap2').style.width = '1280px';
+$('container').style.marginTop = '30px';
+$('showPanel1').innerHTML = '隐藏工具栏B';
+ } else {
+isPanelShow1 = false;
+$('showPanel1').style.top = '0px';
+$('showPanel').style.top = '0px';
+$('panelWrap').style.height = '0px';
+$('info').style.top = '0px';
+$('container').style.marginTop = '0px';
+$('panelWrap2').style.height = '0px';
+$('showPanel1').innerHTML = '显示工具栏B';}}
+var key = 1;    //开关
+var newpoint;
+var Polylinepoints = [];
+var polyline = new BMap.Polyline([],{strokeColor:'blue', strokeWeight:4, strokeOpacity:0.5}); 
+function startTool(){   //开关函数
+if(key==1){
+        document.getElementById('startBtn').style.background = 'green';
+        document.getElementById('startBtn').style.color = 'white';
+        document.getElementById('startBtn').value = '开启状态';
+        key=0;
+    }
+    else{
+        document.getElementById('startBtn').style.background = 'red';
+        document.getElementById('startBtn').value = '关闭状态';
+        key=1;
+    }
+}
+map.addEventListener('click',function(e){   //单击地图，形成折线覆盖物
+    newpoint = new BMap.Point(e.point.lng,e.point.lat);
+    if(key==0){
+    //    if(points[points.length].lng==points[points.length-1].lng){alert(111);}
+        Polylinepoints.push(newpoint);  //将新增的点放到数组中
+        polyline.setPath(Polylinepoints);   //设置折线的点数组
+        map.addOverlay(polyline);   //将折线添加到地图上
+        document.getElementById('info').innerHTML = e.point.lng + ',' + e.point.lat + '</br>'; }});   //输出数组里的经纬度
+var styleOptions = {
+strokeColor:'purple', //边线颜色。
+fillColor:'blue', //填充颜色。当参数为空时，圆形将没有填充效果。
+strokeWeight: 2, //边线的宽度，以像素为单位。
+strokeOpacity: 0.5,
+fillOpacity: 0.2, //填充的透明度，取值范围0 - 1。
+strokeStyle: 'solid' //边线的样式，solid或dashed。
+}
+var CirclestyleOptions = {
+strokeColor:'purple', //边线颜色。
+fillColor:'blue', //填充颜色。当参数为空时，圆形将没有填充效果。
+strokeWeight: 2, //边线的宽度，以像素为单位。
+strokeOpacity: 0.5,
+fillOpacity: 0.2, //填充的透明度，取值范围0 - 1。
+strokeStyle: 'solid' //边线的样式，solid或dashed。
+}
+var RectanglestyleOptions = {
+strokeColor:'DarkRed', //边线颜色。
+fillColor:'DeepSkyBlue', //填充颜色。当参数为空时，圆形将没有填充效果。
+strokeWeight: 2, //边线的宽度，以像素为单位。
+strokeOpacity: 0.5,
+fillOpacity: 0.2, //填充的透明度，取值范围0 - 1。
+strokeStyle: 'solid' //边线的样式，solid或dashed。
+}
+var styleOptions = {
+strokeColor:'Black', //边线颜色。
+fillColor:'Green', //填充颜色。当参数为空时，圆形将没有填充效果。
+strokeWeight: 2, //边线的宽度，以像素为单位。
+strokeOpacity: 0.5,
+fillOpacity: 0.2, //填充的透明度，取值范围0 - 1。
+strokeStyle: 'solid' //边线的样式，solid或dashed。
+}
+var drawingManager = new BMapLib.DrawingManager(map, {
+isOpen: false, //是否开启绘制模式
+enableDrawingTool: true, //是否显示工具栏
+drawingToolOptions: {
+anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+offset: new BMap.Size(-110, 50), //偏离值
+scale: 0.4 //工具栏缩放比例
+},
+circleOptions: CirclestyleOptions, //圆的样式
+polylineOptions: styleOptions, //线的样式
+polygonOptions: styleOptions, //多边形的样式
+rectangleOptions: RectanglestyleOptions //矩形的样式
+});
+</script>
+

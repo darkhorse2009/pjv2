@@ -1,0 +1,403 @@
+<!-- form-wizard.html -->
+{% extends 'base/base.html' %}
+
+{% block page_style %}
+    <!-- basic styles -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="static/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="static/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="static/css/font.css" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="static/css/ace.min.css" />
+    <link rel="stylesheet" href="static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="static/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="static/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+
+    <script src="static/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.js"></script>
+    <script src="static/js/respond.min.js"></script>
+    <![endif]-->
+{% endblock %}
+
+{% block siderbar %}
+    <div class="sidebar" id="sidebar">
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+        </script>
+        <ul class="nav nav-list">
+            <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> L网参数管理 </span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="{{ url_for('mainBlueprint.setlte') }}">
+                            <i class="icon-hand-right"></i>
+                            配置
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="{{ url_for('mainBlueprint.ltechk') }}">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="buttons.html">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> C网参数管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li >
+                        <a href="tables.html">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="jqgrid.html">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> 数据管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="{{ url_for('mainBlueprint.upload') }}">
+                            <i class="icon-hand-right"></i>
+                            数据上传
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> 万栋楼宇 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            掌上优测试统计
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul><!-- /.nav-list -->
+
+        <div class="sidebar-collapse" id="sidebar-collapse">
+            <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+        </div>
+
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+        </script>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+<div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">Home</a>
+            </li>
+
+            <li>
+                <a href="#">L网参数管理</a>
+            </li>
+            <li class="active">参数核查</li>
+        </ul><!-- .breadcrumb -->
+        <div class="nav-search" id="nav-search">
+            <form class="form-search">
+                <span class="input-icon">
+                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                    <i class="icon-search nav-search-icon"></i>
+                </span>
+            </form>
+        </div><!-- #nav-search -->
+    </div>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="widget-box">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <h5>
+                            <i class="icon-signal"></i>
+                            问题点统计
+                        </h5>
+
+                    </div>
+                    <div class="widget-body">
+
+                            <div id="one" style="min-width: 310px; height: 200px; max-width: 600px; margin: 0 auto"></div>
+
+                    </div><!-- /widget-body -->
+                </div><!-- /widget-box -->
+            </div><!-- /span -->
+            <div class="col-sm-8">
+                    <div class="tabbable" style="min-width:630px;height:240px">
+                        <ul class="nav nav-tabs tab-color-blue background-blue" id="myTab">
+                            {% for row in paranameCat[0] %}
+                                {% if loop.index==1 %}
+                                    <li class="active">
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                    <a data-toggle="tab" href="#tb{{ loop.index }}">
+                                        <i class="green icon-home bigger-110"></i>
+                                        {{ row }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="tab-content">
+                            {% for row in paranameCat[0] %}
+                                {% if loop.index==1 %}
+                                    <div id="tb{{ loop.index }}" class="tab-pane in active" style="min-width:500px;height:160px"></div>
+                                {% else %}
+                                    <div id="tb{{ loop.index }}" class="tab-pane" style="min-width:500px;height:160px"></div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+            </div>
+        </div><!-- /.row -->
+
+        <div class="hr hr-18 dotted"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="table-responsive">
+                    <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="hidden-480">地市</th>
+                                <th>楼群名称</th>
+                                <th>行政区</th>
+                                <th>营销中心</th>
+                                <th>经度（百度）</th>
+                                <th>纬度（百度）</th>
+                                <th>备注</th>
+                                <th>采样总数</th>
+                                <th>RSRP<-115</th>
+                                <th>-115<=RSRP<-95</th>
+                                <th>RSRP>-95</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for row in result_ls %}
+                            <tr>
+                                {% for rs in row %}
+                                    {% if rs is number and rs<=5 %}
+                                        <td><span class="label label-sm label-warning">{{ rs }}</span></td>
+                                    {% else %}
+                                        <td>{{ rs }}</td>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->
+{% endblock %}
+
+{% block page_js %}
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+		  <script src="static/js/excanvas.min.js"></script>
+		<![endif]-->
+<script src="static/js/flot/jquery.flot.min.js"></script>
+<script src="static/js/flot/jquery.flot.pie.min.js"></script>
+<script src="static/js/flot/jquery.flot.resize.min.js"></script>
+
+<script src="static/js/jquery.dataTables.min.js"></script>
+<script src="static/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- inline scripts related to this page -->
+
+<!-- index.html -->
+
+
+<!-- tables -->
+<script type="text/javascript">
+    jQuery(function($) {
+        var oTable1 = $('#sample-table-2').dataTable( {
+        "aoColumns": [
+          { "bSortable": false ,"bVisible": false},{"bAutoWidth": true},
+            null,null, null, null,
+            {"bVisible": false},
+            null,null,null,null
+        ] } );
+
+
+        $('table th input:checkbox').on('click' , function(){
+            var that = this;
+            $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function(){
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+
+        });
+
+
+        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+        function tooltip_placement(context, source) {
+            var $source = $(source);
+            var $parent = $source.closest('table')
+            var off1 = $parent.offset();
+            var w1 = $parent.width();
+
+            var off2 = $source.offset();
+            var w2 = $source.width();
+
+            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+            return 'left';
+        }
+
+
+    })
+</script>
+
+<script>
+$(function () {
+    var barData = {{ paranameCat[1] | safe }};
+    var oneX = []
+    var oneY = []
+    for(var i=0;i<barData.length;i++){
+        oneX[i] = [];
+        oneY[i] = [];
+        for(var j=0;j<barData[i].length;j++)
+            {
+                oneX[i][j] = barData[i][j][0];
+                oneY[i][j] = barData[i][j][1];
+            }
+        };
+    alert(oneX[0]);
+    alert(oneY[0]);
+    $('#tb1').highcharts({                   //图表展示容器，与div的id保持一致
+            chart: {type: 'column'},
+            legend:{align:'right',verticalAlign:'top',enabled:false},
+            title: { text: '' },     //指定图表标题
+            xAxis: { categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'] },   //指定x轴分组
+            yAxis: { title: { text: 'something' } },                 //指定y轴的标题
+            series: { name: '任务数', data: [1,2,3,4,5] }     //指定数据列,数据列名,数据
+            });
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+      var count = {{ categoriesCat | safe }};
+        alert(count)
+      var data = [];
+        <!-- var series = Math.floor(Math.random()*10)+1; -->
+       for( var i = 0; i< count.length; i++)
+        {
+            data[i] = { name: count[i][0], y: count[i][1] }
+        };
+    $('#one').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{point.name}: <b>{point.y}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name} </b>: {point.y} ',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: "Brands",
+            colorByPoint: true,
+            data: data
+        }]
+    });
+});
+</script>
+{% endblock %}
