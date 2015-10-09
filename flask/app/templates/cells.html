@@ -1,0 +1,104 @@
+﻿<head>
+<META content="text/html; charset=utf-8" http-equiv="Content-Type">
+<TITLE>cells on baidu by weiyq_chris@126.com</TITLE>
+<SCRIPT type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=6EtTQakGlsmGEg4L54rSpVd2"></SCRIPT>
+<SCRIPT type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="http://api.map.baidu.com/library/RectangleZoom/1.2/src/RectangleZoom_min.js"></SCRIPT>
+</HEAD>
+<BODY>
+<DIV style="height: 100%; -webkit-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out;" id="container"></DIV>
+<SCRIPT type="text/javascript">
+var BASEDATA = [
+{NAME:'中畅磁带D_1',LAC_CI:'8410_17981',Azimuth:0,专题字段:'BSC1',point:'108.91578,34.2312',point1:'108.92695192532,34.235424063686', point2: '108.9266,34.23589', point5: '108.92677,34.23595', point6: '108.92695,34.23596', point7: '108.92713,34.23595', point3: '108.9273,34.23589',point4: '108.92645,34.23621',isOpen:0,BCCH:704},
+{NAME:'中畅磁带D_2',LAC_CI:'8410_17982',Azimuth:120,专题字段:'BSC1',point:'108.91578,34.2312',point1:'108.92695192532,34.235424063686', point2: '108.92765,34.23542', point5: '108.92763,34.23528', point6: '108.92756,34.23515', point7: '108.92745,34.23504', point3: '108.9273,34.23496',point4: '108.9276,34.23515',isOpen:0,BCCH:696},
+{NAME:'中畅磁带D_3',LAC_CI:'8410_17983',Azimuth:240,专题字段:'BSC1',point:'108.91578,34.2312',point1:'108.92695192532,34.235424063686', point2: '108.9266,34.23496', point5: '108.92646,34.23504', point6: '108.92634,34.23515', point7: '108.92627,34.23528', point3: '108.92625,34.23542',point4: '108.92526,34.23515',isOpen:0,BCCH:693},
+{NAME:'中交通力_1',LAC_CI:'8410_19871',Azimuth:0,专题字段:'BSC1',point:'108.8883,34.230247',point1:'108.89950041537,34.234323397148', point2: '108.89926,34.23502', point5: '108.89938,34.23504', point6: '108.8995,34.23504', point7: '108.89963,34.23504', point3: '108.89974,34.23502',point4: '108.89907,34.23529',isOpen:0,BCCH:111},
+{NAME:'中交通力_2',LAC_CI:'8410_19872',Azimuth:120,专题字段:'BSC1',point:'108.8883,34.230247',point1:'108.89950041537,34.234323397148', point2: '108.90041,34.23414', point5: '108.90037,34.23405', point6: '108.90031,34.23396', point7: '108.90024,34.23388', point3: '108.90016,34.23381',point4: '108.90035,34.23396',isOpen:0,BCCH:117},
+{NAME:'中交通力_3',LAC_CI:'8410_19873',Azimuth:240,专题字段:'BSC1',point:'108.8883,34.230247',point1:'108.89950041537,34.234323397148', point2: '108.89884,34.23381', point5: '108.89876,34.23389', point6: '108.89869,34.23396', point7: '108.89863,34.23405', point3: '108.8986,34.23414',point4: '108.89776,34.23396',isOpen:0,BCCH:124},
+{NAME:'中交通力D_1',LAC_CI:'8410_11046',Azimuth:10,专题字段:'BSC1',point:'108.888296,34.230244',point1:'108.89949633817,34.234320438488', point2: '108.89926,34.23483', point5: '108.89944,34.23486', point6: '108.89962,34.23485', point7: '108.89979,34.23481', point3: '108.89995,34.23473',point4: '108.89912,34.2351',isOpen:0,BCCH:710},
+{NAME:'中交通力D_2',LAC_CI:'8410_11047',Azimuth:120,专题字段:'BSC1',point:'108.888296,34.230244',point1:'108.89949633817,34.234320438488', point2: '108.9002,34.23432', point5: '108.90017,34.23418', point6: '108.9001,34.23405', point7: '108.89999,34.23394', point3: '108.89985,34.23385',point4: '108.90014,34.23405',isOpen:0,BCCH:698},
+{NAME:'中交通力D_3',LAC_CI:'8410_11048',Azimuth:240,专题字段:'BSC1',point:'108.888296,34.230244',point1:'108.89949633817,34.234320438488', point2: '108.89915,34.23385', point5: '108.899,34.23394', point6: '108.89889,34.23405', point7: '108.89882,34.23418', point3: '108.89879,34.23432',point4: '108.8978,34.23405',isOpen:0,BCCH:693},
+{NAME:'紫薇臻品D_1',LAC_CI:'8410_13836',Azimuth:0,专题字段:'BSC1',point:'108.87643,34.2398',point1:'108.88759389489,34.244014922665', point2: '108.88724,34.24448', point5: '108.88741,34.24454', point6: '108.88759,34.24455', point7: '108.88778,34.24454', point3: '108.88795,34.24448',point4: '108.88709,34.2448',isOpen:0,BCCH:705},
+{NAME:'紫薇臻品D_2',LAC_CI:'8410_13837',Azimuth:120,专题字段:'BSC1',point:'108.87643,34.2398',point1:'108.88759389489,34.244014922665', point2: '108.8883,34.24401', point5: '108.88827,34.24388', point6: '108.8882,34.24375', point7: '108.88809,34.24363', point3: '108.88795,34.24355',point4: '108.88824,34.24375',isOpen:0,BCCH:728},
+{NAME:'紫薇臻品D_3',LAC_CI:'8410_13838',Azimuth:240,专题字段:'BSC1',point:'108.87643,34.2398',point1:'108.88759389489,34.244014922665', point2: '108.88724,34.24355', point5: '108.8871,34.24363', point6: '108.88699,34.24375', point7: '108.88692,34.24388', point3: '108.88689,34.24401',point4: '108.8859,34.24375',isOpen:0,BCCH:688}
+];
+function initMap(){
+    window.map = new BMap.Map('container');
+    map.centerAndZoom(new BMap.Point(108.91816263285,34.233466750723),14);
+    myDis1 = new BMapLib.DistanceTool(map);
+    myDrag = new BMapLib.RectangleZoom(map, {
+    followText: '拖拽鼠标进行放大'
+    });
+    map.enableScrollWheelZoom();
+    map.addControl(new BMap.NavigationControl());
+    map.addControl(new BMap.OverviewMapControl());
+    map.addControl(new BMap.ScaleControl());
+    map.addControl(new BMap.MapTypeControl());
+    window.searchClass = new SearchClass();
+    searchClass.setData(BASEDATA);
+    var dd = searchClass.search({k:'NAME'});//t:{single|more},s{all|!all}
+    addMarker(dd);
+
+}
+window.addMarker = function (data){
+    map.clearOverlays();
+    for(var i=0;i<data.length;i++){
+        var json = data[i];
+        var p0 = json.point.split(',')[0];
+        var p1 = json.point.split(',')[1];
+        var point = new BMap.Point(Number(p0),Number(p1));
+        var p10 = json.point1.split(',')[0];
+        var p11 = json.point1.split(',')[1];
+        var point1 = new BMap.Point(Number(p10),Number(p11));
+        var p50 = json.point5.split(',')[0];
+        var p51 = json.point5.split(',')[1];
+        var point5 = new BMap.Point(Number(p50),Number(p51));
+        var p60 = json.point6.split(',')[0];
+        var p61 = json.point6.split(',')[1];
+        var point6 = new BMap.Point(Number(p60),Number(p61));
+        var p20 = json.point2.split(',')[0];
+        var p21 = json.point2.split(',')[1];
+        var point2 = new BMap.Point(Number(p20),Number(p21));
+        var p30 = json.point3.split(',')[0];
+        var p31 = json.point3.split(',')[1];
+        var point3 = new BMap.Point(Number(p30),Number(p31));
+        var p70 = json.point7.split(',')[0];
+        var p71 = json.point7.split(',')[1];
+        var point7 = new BMap.Point(Number(p70),Number(p71));
+        var p40 = json.point4.split(',')[0];
+        var p41 = json.point4.split(',')[1];
+        var point4 = new BMap.Point(Number(p40),Number(p41));
+        if(json.BCCH >124) {
+            if(json.Azimuth==360){
+                var polygon= new BMap.Circle(point1,20,{strokeColor:'#FF0000', strokeWeight:1, strokeOpacity: 1 , fillColor:'#00FF00', fillOpacity:.87});}
+            else {
+                var polygon= new BMap.Polygon([point1,point2,point5,point6,point7,point3], {strokeColor:'#FF0000', strokeWeight:1, strokeOpacity: 1 , fillColor:'#00FF00', fillOpacity:.87});}
+        }
+        else {
+            if(json.Azimuth==360){
+                var polygon= new BMap.Circle(point1,30,{strokeColor:'#0000FF', strokeWeight:1, strokeOpacity: 1, fillColor:'#FFFF00', fillOpacity:.86});}
+            else {
+                var polygon= new BMap.Polygon([point1,point2,point5,point6,point7,point3], {strokeColor:'#0000FF', strokeWeight:1, strokeOpacity: 1, fillColor:'#FFFF00', fillOpacity:.86});}
+        }
+        map.addOverlay(polygon);
+    };};
+
+function SearchClass(data){ this.datas = data;}
+SearchClass.prototype.search = function(rule){
+    if(this.datas == null){alert('数据不存在!');return false;}
+    var reval = [];
+    var datas = this.datas;
+    var len = datas.length;
+    for(var cnt = 0; cnt < len; cnt++){
+        var data = datas[cnt];
+        reval.push(data);
+    }
+    return reval;
+};
+SearchClass.prototype.setData = function(data){
+this.datas = data;
+};
+
+initMap();//创建和初始化地图
+</SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,564 @@
+<!-- dropzone.html -->
+{% extends 'base/base.html' %}
+
+{% block page_style %}
+<!-- basic styles -->
+
+<link href="static/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="static/css/font-awesome.min.css" />
+
+<!--[if IE 7]>
+  <link rel="stylesheet" href="static/css/font-awesome-ie7.min.css" />
+<![endif]-->
+
+<!-- page specific plugin styles -->
+
+<link rel="stylesheet" href="static/css/dropzone.css" />
+<link rel="stylesheet" href="static/css/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" href="static/css/chosen.css" />
+<link rel="stylesheet" href="static/css/datepicker.css" />
+<link rel="stylesheet" href="static/css/bootstrap-timepicker.css" />
+<link rel="stylesheet" href="static/css/daterangepicker.css" />
+<link rel="stylesheet" href="static/css/colorpicker.css" />
+
+<!-- fonts -->
+
+<link rel="stylesheet" href="static/css/font.css" />
+
+<!-- ace styles -->
+
+<link rel="stylesheet" href="static/css/ace.min.css" />
+<link rel="stylesheet" href="static/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="static/css/ace-skins.min.css" />
+
+<!--[if lte IE 8]>
+  <link rel="stylesheet" href="static/css/ace-ie.min.css" />
+<![endif]-->
+
+<!-- inline styles related to this page -->
+
+<!-- ace settings handler -->
+
+<script src="static/js/ace-extra.min.js"></script>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+<!--[if lt IE 9]>
+<script src="static/js/html5shiv.js"></script>
+<script src="static/js/respond.min.js"></script>
+<![endif]-->
+
+{% endblock %}
+
+{% block siderbar %}
+    <div class="sidebar" id="sidebar">
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+        </script>
+        <ul class="nav nav-list">
+            <li>
+                <a href="#" class="dropdown-toggle hide">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> L网参数管理 </span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            配置
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="buttons.html">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle hide">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> C网参数管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li >
+                        <a href="tables.html">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="jqgrid.html">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-cog"></i>
+                    <span class="menu-text"> 日常优化 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-cogs"></i>
+                    <span class="menu-text"> 专题优化 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li >
+                        <a href="{{url_for('mainBlueprint.LtoC')}}">
+                            <i class="icon-hand-right"></i>
+                            4G下切3G专题
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="jqgrid.html">
+                            <i class="icon-hand-right"></i>
+                            IRC干扰参数(待开发)
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="jqgrid.html">
+                            <i class="icon-hand-right"></i>
+                            MME配置缺失(待开发)
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-hdd"></i>
+                    <span class="menu-text"> 数据管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li class="active">
+                        <a href="{{ url_for('mainBlueprint.upload') }}">
+                            <i class="icon-hand-right"></i>
+                            L网数据管理
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            C网数据管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul><!-- /.nav-list -->
+
+        <div class="sidebar-collapse" id="sidebar-collapse">
+            <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+        </div>
+
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+        </script>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+
+<div class="main-content">
+    
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">Home</a>
+            </li>
+
+            <li>
+                <a href="#">数据管理</a>
+            </li>
+            
+            <li class="active">L网数据管理</li>
+        </ul><!-- .breadcrumb -->
+
+        <div class="nav-search" id="nav-search">
+            <form class="form-search">
+                <span class="input-icon">
+                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                    <i class="icon-search nav-search-icon"></i>
+                </span>
+            </form>
+        </div><!-- #nav-search -->
+    </div>
+
+    <div class="page-content">
+        
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="center">
+                                            <label>
+                                                <input type="checkbox" class="ace" />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </th>
+                                        <th>文件名称</th>
+                                        <th>创建者</th>
+                                        <th class="hidden-480">
+                                            <i class="icon-time bigger-110 hidden-480"></i>
+                                            创建时间
+                                        </th>
+                                        <th class="hidden-480">状态</th>
+                                        <th class="hidden-480">问题数</th>
+                                        <th class="hidden-480">核查总数</th>
+
+                                        <th>
+                                            <a href="{{url_for('mainBlueprint.setting')}}" class="tooltip-info" data-rel="tooltip" title="View">
+                                                <span class="blue">
+                                                    <i class="icon-cog icon-only bigger-110"></i>设置
+                                                </span>
+                                            </a>
+                                            <!-- 操作 -->
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for item in data %}
+                                    <tr>
+                                        <td class="center">
+                                            <label>
+                                                <input type="checkbox" class="ace" />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </td>
+
+                                        <td>{{ item['_id'] }}</td>
+                                        <td>{{ item['creator'] }}</td>
+                                        <td>{{ item['ctime'] }}</td>
+                                        <td><i class="icon-camera bigger-120 blue "></i>{{ item['status'] }}</td>
+                                        <td>{{ item['counter'] }}</td>
+                                        <td>{{ item['total'] }}</td>
+                                        <td>
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                                <span class="label label-warning arrowed-right">
+                                                    <a href="{{url_for('mainBlueprint.unzip', o_id=item['_id'])}}" class="tooltip-info" data-rel="tooltip" title="View">
+                                                        <span class='white'>
+                                                            <i class="icon-hdd bigger-120 "></i>导入
+                                                        </span>
+                                                    </a>
+                                                </span>
+                                                <span class="label label-info arrowed-in arrowed-right">
+                                                    <a href="{{url_for('mainBlueprint.analysis', o_id=item['_id'], p_op=item['operator'])}}" class="tooltip-info" data-rel="tooltip" title="View">
+                                                        <span class='white'>
+                                                            <i class=" icon-eye-open bigger-120"></i>分析
+                                                        </span>
+                                                    </a>
+                                                </span>
+                                                <span class="label label-success arrowed-in arrowed-right">
+                                                    <a href="{{url_for('mainBlueprint.download', o_id=item['_id'], p_op=item['operator'])}}" class="tooltip-info" data-rel="tooltip" title="View">
+                                                        <span class='white'>
+                                                            <i class=" icon-save bigger-120"></i>下载
+                                                        </span>
+                                                       
+                                                    </a>
+                                                </span>
+                                                <span class="label label-success arrowed-in">
+                                                    <!-- <li class="li-new-mail pull-right"> -->
+                                                        <a data-toggle="tab" href="#write" data-target="write" class="btn-new-mail" value="{{item['_id']}}" id="{{item['_id']}}">
+                                                            <span class="white">
+                                                                <i class=" icon-envelope bigger-120"></i> 邮件
+                                                            </span>
+                                                        </a>
+                                                    <!-- </li> -->
+                                                </span>
+                                                
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor%}
+                                  
+                                </tbody>
+                            </table>
+                        </div><!-- /.table-responsive -->
+                        <div class="tab-content no-border no-padding">
+                            <div class="tab-pane in active">
+                                <!-- <div class="message-container"> -->
+                                    <div id="id-message-new-navbar" class="hide message-navbar align-center clearfix">
+                                        <div class="message-bar">
+                                            <div class="message-toolbar">
+                                                <i class="icon-envelope blue bigger-140 middle"></i>
+                                                <b class="middle bigger-140" id='myID'>邮件发送</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- </div>/.message-container -->
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+                        <form id="id-message-form" class="hide form-horizontal message-form  col-xs-12" action="{{url_for('mainBlueprint.sendmail')}}" method="post">
+                            <div class="">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-recipient">Recipient:</label>
+
+                                    <div class="col-sm-9">
+                                        <span class="input-icon">
+                                            <input type="email" name="recipient" id="form-field-recipient" data-value="alex@doe.com" value="alex@doe.com" placeholder="Recipient(s)" />
+                                            <i class="icon-user"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="hr hr-18 dotted"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-subject">Subject:</label>
+
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="input-icon block col-xs-12 no-padding">
+                                            <input maxlength="100" type="text" class="col-xs-12" name="subject" id="form-field-subject" placeholder="Subject" />
+                                            <i class="icon-comment-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="hr hr-18 dotted"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">
+                                        <span class="inline space-24 hidden-480"></span>
+                                        Message:
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <div class="wysiwyg-editor" id="wysiwyg_id"></div>
+                                        <!-- <input type="text" name="my-html-content" value="SET" id="TE"/> -->
+                                    </div>
+                                </div>
+                                <div class="hr hr-18 dotted"></div>
+
+                                <div class="form-group no-margin-bottom ">
+                                    <label class="col-sm-3 control-label no-padding-right">Attachments:</label>
+
+                                    <div class="col-sm-9">
+                                        <div id="form-attachments">
+                                            <input maxlength="100" type="text" class="col-xs-6" name="attachments" id="form-field-attach" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space"></div>
+                                <div class="space"></div>
+                                <div class="message-item-bar">
+                                    <div class="messagebar-item-left">
+                                        <a href="#" class="btn-back-message-list no-hover-underline">
+                                            <i class="icon-arrow-left blue bigger-110 middle"></i>
+                                            <b class="middle bigger-110">Back</b>
+                                        </a>
+                                    </div>
+                                    <div class="messagebar-item-right">
+                                        <span class="inline btn-send-message">
+                                            <button type="summit" class="btn btn-sm btn-primary no-border">
+                                                <span class="bigger-110">Send</span>
+
+                                                <i class="icon-arrow-right icon-on-right"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="space"></div>
+                            </div>
+                        </form>
+                    </div><!-- /span -->
+                </div><!-- /row -->
+                
+                <!-- <div class="hr hr-18 dotted hr-double"></div> -->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div id="dropzone">
+                            <form action="{{ url_for('mainBlueprint.upload') }}" class="dropzone">
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple="" />
+                                </div>
+                            </form>
+                        </div><!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->
+
+{% endblock %}
+
+
+{% block page_js %}
+
+<!-- page specific plugin scripts -->
+
+<script src="static/js/dropzone.min.js"></script>
+<script src="static/js/fuelux/data/fuelux.tree-sampledata.js"></script>
+<script src="static/js/fuelux/fuelux.tree.min.js"></script>
+
+<script src="static/js/bootstrap-tag.min.js"></script>
+<script src="static/js/jquery.hotkeys.min.js"></script>
+<script src="static/js/bootstrap-wysiwyg.min.js"></script>
+<script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="static/js/jquery.ui.touch-punch.min.js"></script>
+<script src="static/js/jquery.slimscroll.min.js"></script>
+
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    jQuery(function($){
+
+    try {
+      $(".dropzone").dropzone({
+        paramName: "file", // The name that will be used to transfer the file
+        //maxFilesize: 0.5, // MB
+
+        addRemoveLinks : true,
+        dictDefaultMessage :
+        '<span class="bigger-110 bolder"><i class="icon-caret-right red"></i> 拖拽文件</span> 上传 \
+        <span class="smaller-80 grey">(或者点击此处)</span> <br /> \
+        <i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
+        dictResponseError: 'Error while uploading file!',
+        //change the previewTemplate to use Bootstrap progress bars
+        previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+        init: function () {
+            this.on("complete", function (file) {
+              if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                location.reload();
+              }
+            });
+          }
+      });
+    } catch(e) {
+      alert('Dropzone.js does not support older browsers!');
+    }
+
+    });
+</script>
+
+<script type="text/javascript">
+    jQuery(function($){
+        // alert($('#wysiwyg_id').post())
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            // var currentTab = $(e.target).data('target');
+            tab_id = e.target.id
+            if($('.message-form').is(':visible') && pretab_id==tab_id) {$('.message-form').addClass('hide');$('.message-navbar ').addClass('hide');return}
+            
+            $('#form-field-attach').attr("value",tab_id);
+            $('#form-field-subject').attr("value",tab_id);
+            // alert($('#wysiwyg_id').html())
+            show_form();
+            pretab_id = tab_id
+        })
+        //back to message list
+        $('.btn-back-message-list').on('click', function(e) {
+            $('.message-navbar ').addClass('hide');
+            $('#id-message-form').addClass('hide');
+            // window.location.reload()
+        });
+    
+        //show write mail form
+        show_form = function() {
+            // alert($('#form-field-attach').val())
+            if($('.message-form').is(':visible')) return;
+            if(!form_initialized) {
+                initialize_form();
+            }
+            // initialize_form();
+            $('.message-container').append('<div class="message-loading-overlay"><i class="icon-spin icon-spinner orange2 bigger-160"></i></div>');
+            
+            setTimeout(function() {
+                $('.message-container').find('.message-loading-overlay').remove();
+                $('.message-form').removeClass('hide');
+                $('.message-navbar').addClass('hide');
+                $('#id-message-new-navbar').removeClass('hide');
+                //reset form??
+                $('.message-form .wysiwyg-editor').empty();
+                $('.message-form .ace-file-input').closest('.file-input-container:not(:first-child)').remove();
+                $('.message-form input[type=file]').ace_file_input('reset_input');
+                $('.message-form').get(0).reset();
+            }, 300 + parseInt(Math.random() * 300));
+
+        }
+        var form_initialized = false;
+        function initialize_form() {
+            if(form_initialized) return;
+            // $('#form-field-attach').attr("value",tab_id);
+            // $('#form-field-subject').attr("value",tab_id);
+            form_initialized = true;
+            //intialize wysiwyg editor
+            $('.message-form .wysiwyg-editor').ace_wysiwyg({
+                toolbar:
+                [
+                    'bold',
+                    'italic',
+                    'strikethrough',
+                    'underline',
+                    null,
+                    'justifyleft',
+                    'justifycenter',
+                    'justifyright',
+                    null,
+                    'createLink',
+                    'unlink',
+                    null,
+                    'undo',
+                    'redo'
+                ]
+            }).prev().addClass('wysiwyg-style1');
+        };//initialize_form
+        $('#id-message-form').on('submit', function() {
+          var hidden_input =
+          $('<input type="hidden" name="wysiwyg_html"/>')
+          .appendTo('#id-message-form');
+          var html_content = $('#wysiwyg_id').html();
+          hidden_input.val( html_content );
+        });
+    });
+</script>
+{% endblock %}
+

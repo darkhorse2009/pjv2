@@ -1,0 +1,231 @@
+<!-- form-wizard.html -->
+{% extends 'base/base.html' %}
+
+{% block page_style %}
+    <!-- basic styles -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="static/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="static/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="static/css/font.css" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="static/css/ace.min.css" />
+    <link rel="stylesheet" href="static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="static/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="static/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+    <link rel="stylesheet" href="static/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="static/css/dataTables.colVis.css" />
+    <link rel="stylesheet" href="static/css/dataTables.tableTools.css" />
+
+    <!-- ace settings handler -->
+
+    <script src="static/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.js"></script>
+    <script src="static/js/respond.min.js"></script>
+    <![endif]-->
+{% endblock %}
+
+{% block siderbar %}
+    <div class="sidebar" id="sidebar">
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+        </script>
+        <ul class="nav nav-list">
+            <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> L网参数管理 </span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            配置
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> C网参数管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li >
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            参数核查
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="icon-hand-right"></i>
+                            参数查询
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-reorder"></i>
+                    <span class="menu-text"> 数据管理 </span>
+
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="{{url_for('mainBlueprint.upload')}}">
+                            <i class="icon-hand-right"></i>
+                            数据上传
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul><!-- /.nav-list -->
+
+        <div class="sidebar-collapse" id="sidebar-collapse">
+            <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+        </div>
+
+        <script type="text/javascript">
+            try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+        </script>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+<div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">Home</a>
+            </li>
+
+            <li>
+                <a href="#">L网参数管理</a>
+            </li>
+            <li class="active">参数核查</li>
+        </ul><!-- .breadcrumb -->
+        <div class="nav-search" id="nav-search">
+            <form class="form-search">
+                <span class="input-icon">
+                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                    <i class="icon-search nav-search-icon"></i>
+                </span>
+            </form>
+        </div><!-- #nav-search -->
+    </div>
+
+    <div class="page-content">
+        <div class="hr dotted"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>基站编号</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Success!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->
+{% endblock %}
+
+{% block page_js %}
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+          <script src="static/js/excanvas.min.js"></script>
+        <![endif]-->
+
+
+<script src="static/js/jquery.dataTables.min.js"></script>
+<script src="static/js/jquery.dataTables.bootstrap.js"></script>
+<script src="static/js/dataTables.colVis.js"></script>
+<script src="static/js/dataTables.tableTools.js"></script>
+
+<!-- inline scripts related to this page -->
+
+<!-- index.html -->
+
+
+<!-- tables -->
+
+<script type="text/javascript">
+$(function() {
+    $.fn.dataTable.TableTools.defaults.aButtons = [ "copy", "csv", "xls" ];
+    $('#example').DataTable( {
+        "sDom": 'TC<"clear">lfrtip',     //注意官网实例为Dom,C为显示或隐藏列，T为导出
+        //"sDom": "T<'clear'><'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+        //<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>
+        "colVis": { buttonText: "show/hide", exclude: [ 0 ], "sAlign": "right" },
+        "bProcessing": true,
+        "bAutoWidth": false,    //自适应列宽
+        "sScrollX": "100%",     //结合水平滚动条使用
+        "bScrollCollapse": true,    //开启水平滚动条
+        "sScrollY": "200px",    //开启垂直滚动条
+        "bPaginate": true,  //启用分页
+        "bJQueryUI": true,
+        tableTools: { "sSwfPath": "{{ url_for('static',filename='swf/copy_csv_xls_pdf.swf') }}" }
+    } );
+} );
+</script>
+
+{% endblock %}
