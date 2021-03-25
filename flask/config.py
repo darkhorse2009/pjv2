@@ -12,8 +12,8 @@ class Config:
     MAIL_SENDER = 'fangww_uestc@163.com'
     MAIL_PORT = 25
     MAIL_USE_TLS = False
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'fangww_uestc'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'uestc99020315'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or ''
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or ''
 
 class TestingConfig(Config):
     MONGO_URL = 'mongodb://localhost:27017/'
